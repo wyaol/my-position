@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">My Position</string>
+    <string name="enter_server_ip">Enter Server IP</string>
+    <string name="enter_port_number">Enter Port Number</string>
+    <string name="save">Save</string>
+    <string name="location_info_will_appear_here">Location info will appear here</string>
+    <string name="gnss_info_will_appear_here">GNSS info will appear here</string>
+</resources>

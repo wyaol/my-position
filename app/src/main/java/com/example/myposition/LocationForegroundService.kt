@@ -10,6 +10,9 @@ import android.os.IBinder
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 
 class LocationForegroundService : Service() {
 
@@ -35,7 +38,7 @@ class LocationForegroundService : Service() {
         val notification: NotificationCompat.Builder = NotificationCompat.Builder(this, channelId)
             .setContentTitle("Location Service Running")
             .setOngoing(true)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
             .setContentText("App is tracking location in the background.")
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentIntent(pendingIntent)
@@ -44,7 +47,11 @@ class LocationForegroundService : Service() {
         Log.d("LocationService", "Started foreground service")
 
         locationTracker = LocationTracker(this) { location ->
-            val updatedNotification = notification.setContentText("location is ${location.latitude} ${location.longitude}.")
+            val now = LocalDateTime.now()
+            // 格式化时间为字符串，格式为 "yyyy-MM-dd HH:mm:ss"
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val formattedDateTime = now.format(formatter)
+            val updatedNotification = notification.setContentText("location is ${location.latitude} ${location.longitude}.\ntime is ${formattedDateTime}")
             manager.notify(1, updatedNotification.build())
         }
         locationTracker.startLocationUpdates()
